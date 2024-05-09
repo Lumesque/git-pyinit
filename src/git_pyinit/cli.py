@@ -37,26 +37,32 @@ jobs:
       black . --check
 """
 
+
 class PrintConfig(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         print(Path(__file__).parent / "config.toml")
         exit(0)
+
 
 class OpenConfig(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         subprocess.run([os.environ.get("EDITOR", "vim"), str(Path(__file__).parent / "config.toml")], check=False)
         exit(0)
 
+
 def get_args():
     parser = argparse.ArgumentParser(description="git-pyinit: create a new git " +
-    "repository using hatch structure, and set up workflows automatically using a config.toml")
+                                                 "repository using hatch structure, " +
+                                                 "and set up workflows automatically using a config.toml")
     parser.add_argument("project_name", help="name of the project, please keep " +
                         "in mind hatch will replace spaces with -'s or _'s depending " +
                         "on what is in your local repository", type=str, nargs="?")
-    parser.add_argument("--edit-config", help="edit the config.toml file using default editor", action=OpenConfig, nargs=0)
+    parser.add_argument("--edit-config", help="edit the config.toml file using default editor",
+                        action=OpenConfig, nargs=0)
     parser.add_argument("--config", help="Print out the config path and exit", action=PrintConfig, nargs=0)
     # Assume that any other arg will be passed directly to git init
     return parser.parse_known_args()
+
 
 def main():
     # Make sure that git is installed on the system
@@ -93,6 +99,7 @@ def main():
         workflow_string = format_template(get_tool_list(config))
     workflows_file.write_text(workflow_string)
     print("Done.")
+
 
 if __name__ == "__main__":
     main()
