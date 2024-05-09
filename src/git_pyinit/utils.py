@@ -1,4 +1,5 @@
-from __future__ import annotations
+
+from .toml_reader import TomlResults
 
 
 def format_template(results: TomlResults) -> str:

@@ -3,7 +3,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from .exceptions.common import GitNotInstalled
+from .exceptions.common import GitNotInstalled, HatchNotInstalled
 from .toml_reader import get_tool_list
 from .utils import format_template
 

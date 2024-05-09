@@ -9,10 +9,15 @@ runs-on = [
 [tool]
 active = [
 "isort",
-"pyflakes",
+"flake8",
 ]
 
 [tool.isort]
 flags = [
 '--check-only',
+]
+
+[tool.flake8]
+flags = [
+'--per-file-ignores="__init__.py:F401'
 ]
