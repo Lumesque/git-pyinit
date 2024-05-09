@@ -9,7 +9,7 @@ runs-on = [
 [tool]
 active = [
 "isort",
-"pylint"
+"pyflakes",
 ]
 
 [tool.isort]

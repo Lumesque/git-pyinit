@@ -18,12 +18,12 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install isort pylint
+          pip install isort pyflakes
 
       - name: Analyzing code with isort
         run: |
           isort $(git ls-files '*.py') --check-only
 
-      - name: Analyzing code with pylint
+      - name: Analyzing code with pyflakes
         run: |
-          pylint $(git ls-files '*.py') 
+          pyflakes $(git ls-files '*.py') 
