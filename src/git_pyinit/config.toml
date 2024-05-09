@@ -8,14 +8,8 @@ runs-on = [
 
 [tool]
 active = [
-"black",
 "isort",
 "pylint"
-]
-
-[tool.black]
-flags = [
-'--check',
 ]
 
 [tool.isort]
