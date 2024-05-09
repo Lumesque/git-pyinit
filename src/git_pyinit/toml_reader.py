@@ -1,6 +1,7 @@
+from dataclasses import InitVar, dataclass, field
+
 import toml
-from dataclasses import field, dataclass, InitVar
-from collections import namedtuple
+
 
 @dataclass
 class TomlResults:

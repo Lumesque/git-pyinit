@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 def format_template(results: TomlResults) -> str:
     template = \
 """

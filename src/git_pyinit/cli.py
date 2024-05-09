@@ -1,10 +1,12 @@
-import subprocess
-from .exceptions.common import GitNotInstalled
 import argparse
 import os
+import subprocess
 from pathlib import Path
-from .utils import format_template
+
+from .exceptions.common import GitNotInstalled
 from .toml_reader import get_tool_list
+from .utils import format_template
+
 
 def backup_template():
     return """name: Linting Stage
@@ -42,7 +44,7 @@ class PrintConfig(argparse.Action):
 
 class OpenConfig(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        subprocess.run([os.environ.get("EDITOR", "vim"), str(Path(__file__).parent / "config.toml")])
+        subprocess.run([os.environ.get("EDITOR", "vim"), str(Path(__file__).parent / "config.toml")], check=False)
         exit(0)
 
 def get_args():
@@ -58,16 +60,16 @@ def get_args():
 
 def main():
     # Make sure that git is installed on the system
-    if subprocess.run(["git", "--version"], stdout=subprocess.DEVNULL).returncode:
+    if subprocess.run(["git", "--version"], stdout=subprocess.DEVNULL, check=False).returncode:
         raise GitNotInstalled("git is not installed on this system or is not along your path, cannot continue.")
         exit(1)
     # we should never hit this, but just in case
-    elif subprocess.run(["hatch", "--version"], stdout=subprocess.DEVNULL).returncode:
+    elif subprocess.run(["hatch", "--version"], stdout=subprocess.DEVNULL, check=False).returncode:
         raise HatchNotInstalled("hatch is not installed on this system or is not along your path, cannot continue.")
         exit(1)
     args, assumed_git_args = get_args()
     if args.project_name:
-        x = subprocess.run(["hatch", "new", args.project_name], stdout=subprocess.PIPE)
+        x = subprocess.run(["hatch", "new", args.project_name], stdout=subprocess.PIPE, check=False)
         _str = x.stdout.decode('utf-8')
         print(_str)
         _created_dir = _str.split("\n")[0]
@@ -76,9 +78,9 @@ def main():
     else:
         current_dir = Path(os.getcwd()).absolute()
         os.chdir(current_dir.parent)
-        subprocess.run(["hatch", "new", current_dir.name])
+        subprocess.run(["hatch", "new", current_dir.name], check=False)
         os.chdir(current_dir.name)
-    subprocess.run(["git", "init", *assumed_git_args])
+    subprocess.run(["git", "init", *assumed_git_args], check=False)
     workflows_file = Path(".github/workflows/lint.yml")
     if not (parent := workflows_file.parent).exists():
         parent.mkdir(parents=True, exist_ok=True)
