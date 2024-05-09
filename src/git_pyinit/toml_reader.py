@@ -9,6 +9,7 @@ class TomlResults:
     py_vers: list
     tools: list
 
+
 @dataclass
 class Tool:
     name: str
@@ -26,9 +27,11 @@ class Tool:
     def __str__(self):
         return f"{self.command} {self.file_command} {' '.join(self.flags)}"
 
+
 def read_toml(filepath):
     with open(filepath) as f:
         return toml.load(f)
+
 
 def get_tool_list(filepath):
     _toml = read_toml(filepath)
@@ -41,6 +44,11 @@ def get_tool_list(filepath):
     for tool in active:
         tool_section = tools.get(tool, {})
         _end.append(
-                Tool(name=tool_section.get("name", tool), command=tool_section.get("command", None), flags=tool_section.get("flags", default.get("flags", [])), file_command=tool_section.get("file_command", default.get("file_command", "$(git ls-files '*.py')")), active=tool_section.get("active", True))
-                )
-    return TomlResults(runs_on = _runs_on, py_vers=_py_vers, tools=_end)
+            Tool(name=tool_section.get("name", tool),
+                 command=tool_section.get("command", None),
+                 flags=tool_section.get("flags", default.get("flags", [])),
+                 file_command=tool_section.get("file_command",
+                                               default.get("file_command", "$(git ls-files '*.py')")),
+                 active=tool_section.get("active", True))
+        )
+    return TomlResults(runs_on=_runs_on, py_vers=_py_vers, tools=_end)
