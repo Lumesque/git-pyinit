@@ -9,6 +9,8 @@
 
 - [Installation](#installation)
 - [License](#license)
+- [How to use](#how-to-use)
+    - [Example](#example)
 
 ## Installation
 
