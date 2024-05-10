@@ -26,4 +26,4 @@ jobs:
 
       - name: Analyzing code with flake8
         run: |
-          flake8 $(git ls-files '*.py') --per-file-ignores="__init__.py:F401" --ignore=E122,W504 --max-line-length=120
+          flake8 $(git ls-files '*.py') --per-file-ignores="__init__.py:F401" --ignore=E122,W504,W503 --max-line-length=120
