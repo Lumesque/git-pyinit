@@ -30,9 +30,9 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/Joshua Luckie/git-pyinit#readme"
-Issues = "https://github.com/Joshua Luckie/git-pyinit/issues"
-Source = "https://github.com/Joshua Luckie/git-pyinit"
+Documentation = "https://github.com/Lumesque/git-pyinit#readme"
+Issues = "https://github.com/Lumesque/git-pyinit/issues"
+Source = "https://github.com/Lumesque/git-pyinit"
 
 [project.scripts]
 git-pyinit = "git_pyinit.cli:main"
