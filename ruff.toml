@@ -8,10 +8,10 @@ docstring-code-line-length = 80
 
 [lint]
 select = [
+"E251",
 "E302",
 "E501",
-"E251",
-  ]
+]
 
 [lint.isort]
 known-first-party = ["git_pyinit"]

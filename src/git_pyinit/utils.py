@@ -1,10 +1,8 @@
-
 from .toml_reader import TomlResults
 
 
 def format_template(results: TomlResults) -> str:
-    template = \
-    """
+    template = """
     name: Linting Stage
 
     on: [push]
@@ -27,13 +25,12 @@ def format_template(results: TomlResults) -> str:
               pip install {yaml_commands}
     """.format(
         py_vers=str(results.py_vers),
-        yaml_commands=' '.join([tool.yaml_command for tool in results.tools if tool.active])
+        yaml_commands=" ".join([tool.yaml_command for tool in results.tools if tool.active]),
     )
     for tool in results.tools:
         if not tool.active:
             continue
-        template += \
-        f"""
+        template += f"""
               - name: Analyzing code with {tool.name}
                 run: |
                   {tool}

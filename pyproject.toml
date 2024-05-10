@@ -40,6 +40,14 @@ git-pyinit = "git_pyinit.cli:main"
 [tool.hatch.version]
 path = "src/git_pyinit/__about__.py"
 
+[tool.hatch.envs.tests]
+dependencies = [
+  "pytest",
+]
+
+[tool.hatch.envs.tests.scripts]
+test = "pytest {args:tests}"
+
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
@@ -64,4 +72,13 @@ exclude_lines = [
   "no cov",
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
+]
+
+[tool.pytest.ini_options]
+addopts = "-v -s"
+testpaths = [
+  "tests",
+]
+pythonpath = [
+  "src",
 ]
