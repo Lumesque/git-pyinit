@@ -29,6 +29,7 @@ expected_found_files = [
     "project1/.git/hooks/prepare-commit-msg.sample",
     "project1/.git/info/exclude",
     "project1/.github/workflows/lint.yml",
+    "project1/.github/workflows/tests.yml",
 ]
 
 
@@ -58,3 +59,5 @@ def test_success(tempdir):
     str_structure = [str(x) for x in structure]
     for file in expected_found_files:
         assert file in str_structure, f"{file} not found in {structure}"
+        str_structure.remove(file)
+    assert not str_structure, f"Temporary directory had unexpected files. Expected [], got {str_structure}"

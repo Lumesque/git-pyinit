@@ -38,7 +38,10 @@ The config, which can be opened by your default system editor using `git pyinit 
 1. __Build__, python build settings for workflows
     1. `python_version = []`, a list of python versions that will be added to the yaml file (ie: `python_version = ["3.8]`)
     2. `runs-on = ""`, what to run the workflow yaml on. Defaults to `ubuntu-latest`
-2. __tool__
+2. __yaml__
+    1. `active = []`, what sections to use in order to create yaml files. For instance, `active = ["lint", "pytest"]` will create two yamls named 'lint.yml' and 'pytest.yml'
+3. __\<SECTION\>__
+    *  _A result from the __yaml__ section, these are settings for this specific yaml file generated_
     1. `active = []`, a list of tools that are considered 'active' and each pip installed and added to the yaml file
     2. `default = [{}]`, a list of dictionary mappings of default command mappings that you'd like to change. For instance, if you'd like to add a default flag for every tool, you'd do 
     ```toml
@@ -48,7 +51,7 @@ The config, which can be opened by your default system editor using `git pyinit 
     ]
     ```
 
-Also, for each __tool__ specified in _active_, you can add additional flags and options using a `[tool.<TOOLNAME>]` section. For example
+Also, for each __tool__ specified in _active_, you can add additional flags and options using a `[section.<TOOLNAME>]` section. For example
 ```toml
 [tool.isort]
 flags = [
@@ -72,8 +75,6 @@ will create the following directory structure locally
 
 ![dir-structure](./_images/directory_structure.png)
 
-and will create this default yaml file
+* A yaml file will look like the one below
 
 ![yaml-file](./_images/default_yaml.png)
-
-* These will be the default github actions
