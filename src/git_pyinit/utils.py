@@ -9,7 +9,7 @@ def format_template(results: TomlResults) -> str:
 
     jobs:
         build:
-          runs-on: ubuntu-latest
+          runs-on: {runs_on}
           strategy:
             matrix:
               python-version: {py_vers}
@@ -24,6 +24,7 @@ def format_template(results: TomlResults) -> str:
               python -m pip install --upgrade pip
               pip install {yaml_commands}
     """.format(
+        runs_on = results.runs_on,
         py_vers=str(results.py_vers),
         yaml_commands=" ".join([tool.yaml_command for tool in results.tools if tool.active]),
     )
@@ -31,8 +32,8 @@ def format_template(results: TomlResults) -> str:
         if not tool.active:
             continue
         template += f"""
-              - name: Analyzing code with {tool.name}
-                run: |
-                  {tool}
+          - name: Analyzing code with {tool.name}
+            run: |
+              {tool}
         """
     return template

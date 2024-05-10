@@ -1,14 +1,13 @@
 from dataclasses import InitVar, dataclass, field
+from typing import NamedTuple
 
 import toml
-
 
 @dataclass
 class TomlResults:
     runs_on: list
     py_vers: list
     tools: list
-
 
 @dataclass
 class Tool:
@@ -27,6 +26,8 @@ class Tool:
     def __str__(self):
         return f"{self.command} {self.file_command} {' '.join(self.flags)}"
 
+# return this if something happens
+empty_results = TomlResults([],[],[])
 
 def read_toml(filepath):
     with open(filepath) as f:
@@ -36,10 +37,11 @@ def read_toml(filepath):
 def get_tool_list(filepath):
     _toml = read_toml(filepath)
     _py_vers = _toml.get("build", {}).get("python_version", ["3.8"])
-    _runs_on = _toml.get("build", {}).get("runs_on", ["ubuntu-latest"])
+    _runs_on = _toml.get("build", {}).get("runs_on", "ubuntu-latest")
     tools = _toml.get("tool", {})
     active = tools.get("active", [])
-    default = tools.get("default", {})
+    default = tools.get("default", [{}])
+    default = {k: v for d in default for k, v in d.items()}
     _end = []
     for tool in active:
         tool_section = tools.get(tool, {})

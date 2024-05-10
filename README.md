@@ -32,6 +32,31 @@ git pyinit -h
 
 and see the help. git-pyinit has a few args, and all others are __assumed__ got be for `git init`. If you do not specify a directory argument, then it will act as if your __current__ directory will be the init argument and will try to create it.
 
+## The config and you
+
+The config, which can be opened by your default system editor using `git pyinit --edit-config`, or opened on your own using your own editor using the path generated from `git pyinit --config`, has a specific format to follow. Below is a list of sections, and what's applicable in each
+1. __Build__, python build settings for workflows
+    1. `python_version = []`, a list of python versions that will be added to the yaml file (ie: `python_version = ["3.8]`)
+2. __tool__
+    1. `active = []`, a list of tools that are considered 'active' and each pip installed and added to the yaml file
+    2. `default = [{}]`, a list of dictionary mappings of default command mappings that you'd like to change. For instance, if you'd like to add a default flag for every tool, you'd do 
+    ```toml
+    [tool]
+    default = [
+    {'flags' = ['--check-only']},
+    ]
+    ```
+
+Also, for each __tool__ specified in _active_, you can add additional flags and options using a `[tool.<TOOLNAME>]` section. For example
+```toml
+[tool.isort]
+flags = [
+'--check-only',
+]
+file_command = "."
+```
+will generate `isort . --check-only` in your lint.yml. The default find command is `$(git ls-files '*.py')` for tools
+
 #### Example
 
 If you are unfamiliar with hatch, you should read up on it [here](https://hatch.pypa.io/latest/)
