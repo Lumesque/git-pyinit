@@ -1,4 +1,5 @@
 import pytest
+
 from git_pyinit.cli import main
 
 proj_name = "project1"
