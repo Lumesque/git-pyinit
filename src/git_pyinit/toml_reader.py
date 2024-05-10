@@ -1,13 +1,14 @@
 from dataclasses import InitVar, dataclass, field
-from typing import NamedTuple
 
 import toml
+
 
 @dataclass
 class TomlResults:
     runs_on: list
     py_vers: list
     tools: list
+
 
 @dataclass
 class Tool:
@@ -26,8 +27,10 @@ class Tool:
     def __str__(self):
         return f"{self.command} {self.file_command} {' '.join(self.flags)}"
 
+
 # return this if something happens
-empty_results = TomlResults([],[],[])
+empty_results = TomlResults([], [], [])
+
 
 def read_toml(filepath):
     with open(filepath) as f:

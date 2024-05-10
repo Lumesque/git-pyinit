@@ -24,7 +24,7 @@ def format_template(results: TomlResults) -> str:
               python -m pip install --upgrade pip
               pip install {yaml_commands}
     """.format(
-        runs_on = results.runs_on,
+        runs_on=results.runs_on,
         py_vers=str(results.py_vers),
         yaml_commands=" ".join([tool.yaml_command for tool in results.tools if tool.active]),
     )

@@ -5,8 +5,9 @@ import sys
 from pathlib import Path
 
 from .exceptions.common import GitNotInstalled, HatchNotInstalled
-from .toml_reader import get_tool_list, empty_results
+from .toml_reader import empty_results, get_tool_list
 from .utils import format_template
+
 
 class PrintConfig(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -43,6 +44,7 @@ def get_args(input=None):
     )
     # Assume that any other arg will be passed directly to git init
     return parser.parse_known_args(input)
+
 
 def test_dependencies():
     # Make sure that git is installed on the system
@@ -84,10 +86,10 @@ def create_project_and_cd(args) -> int:
         os.chdir(current_dir.name)
     return 0
 
+
 def write_workflow_yaml(path, tools):
-    path.write_text(
-            format_template(tools)
-    )
+    path.write_text(format_template(tools))
+
 
 def main(_input=None, standalone=False):
     here = os.getcwd()
