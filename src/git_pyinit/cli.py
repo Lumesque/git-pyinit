@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 from .exceptions.common import GitNotInstalled, HatchNotInstalled
-from .toml_reader import empty_results, get_tool_list
+from .toml_reader import get_yaml_list
 from .utils import format_template
 
 
@@ -91,6 +91,12 @@ def write_workflow_yaml(path, tools):
     path.write_text(format_template(tools))
 
 
+def get_workflow_file(name):
+    if not name.endswith(".yml"):
+        name += ".yml"
+    return Path(".github", "workflows", name)
+
+
 def main(_input=None, standalone=False):
     here = os.getcwd()
 
@@ -102,14 +108,18 @@ def main(_input=None, standalone=False):
     script_dir = Path(__file__).parent
     config = script_dir / "config.toml"
     if not config.exists():
-        print("Could not find config, no tools will be added to yamls")
-        tools = empty_results
+        print("Could not find config, no yamls will be generated")
+        if standalone:
+            return 1
+        else:
+            sys.exit(1)
     else:
-        tools = get_tool_list(config)
-    workflows_file = Path(".github/workflows/lint.yml")
-    if not (parent := workflows_file.parent).exists():
-        parent.mkdir(parents=True, exist_ok=True)
-    write_workflow_yaml(workflows_file, tools)
+        yamls = get_yaml_list(config)
+    for yaml in yamls:
+        workflows_file = get_workflow_file(name=yaml.name)
+        if not (parent := workflows_file.parent).exists():
+            parent.mkdir(parents=True, exist_ok=True)
+        write_workflow_yaml(workflows_file, yaml)
     print("Done.")
 
     # in case it's not being ran as a subshell
